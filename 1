@@ -1,0 +1,40 @@
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Scanner;
+
+public class MyProgram {
+    public static void main(String[] args){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Введите число x");
+        double x = scanner.nextDouble();
+        int y = (int)Math.round(Calculate(x));
+        System.out.println("Введите команду (save или upload)");
+        boolean choice = false;
+        while (!choice) {
+            if ("save".equals(scanner.next())) {
+                choice = true;
+                try (FileWriter fw = new FileWriter("Result.txt")){
+                    fw.write(y);
+                }catch (IOException ex){
+                    ex.printStackTrace();
+                }
+            } else if ("upload".equals(scanner.next())) {
+                choice = true;
+                try(FileReader fr = new FileReader("Result.txt")) {
+                    x = fr.read();
+                    y = fr.read();
+                    System.out.println("x"+ x + " y "+ y);
+                }catch (IOException ex){
+                    ex.printStackTrace();
+                }
+            } else {
+                System.out.println("Введена неизвестная команда, введите ещё раз");
+            }
+        }
+    }
+    public static double Calculate(double x){
+        double y = x - Math.sin(x);
+        return y;
+    }
+}
